@@ -1,0 +1,12 @@
+.game-scores {
+  .btn {
+    border-color: $white;
+    color: $white;
+
+    &:hover {
+      border-color: $white;
+      background-color: $white;
+      color: $evm-orange-m;
+    }
+  }
+}

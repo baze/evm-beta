@@ -1,0 +1,14 @@
+.game-container {
+  @extend %center;
+  padding: 2em;
+  max-width: 600px;
+
+  .game {
+    padding: 2em;
+    background-color: $evm-grau-40;
+    border-radius: 0.75em;
+    box-shadow: 0 0 5em 0 #333;
+  }
+
+
+}

@@ -1,0 +1,11 @@
+{
+  "name": "My Manifest",
+  "dist/img/evm-e.svg": "dist/img/evm-e.9fbcad02831e32d61f67215e315cbc7b.svg",
+  "dist/img/evm-m.svg": "dist/img/evm-m.84334393ce2432f181d3e9d38a0cdce3.svg",
+  "dist/img/evm-v.svg": "dist/img/evm-v.d23f4cb4bc5c71e88aa26d6c19644ea6.svg",
+  "dist/img/grafik-strom.png": "dist/img/grafik-strom.7421020cfcd6ec44d04c714c9ca98762.png",
+  "dist/img/grafik-wind.png": "dist/img/grafik-wind.b0c4ecf1a6afbb926081c9fb9e89a452.png",
+  "dist/img/hintergrund.jpg": "dist/img/hintergrund.608d7563d47adb4eec29186a383e5cab.jpg",
+  "dist/main.css": "dist/main.963e7ef1a71d7cb2f5a2.css",
+  "dist/main.js": "dist/main.963e7ef1a71d7cb2f5a2.js"
+}

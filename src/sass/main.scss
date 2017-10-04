@@ -1,0 +1,51 @@
+@import "../../node_modules/bootstrap/scss/bootstrap";
+@import "_mixins";
+@import "_colors";
+
+@import "game-container";
+@import "game-display";
+@import "game-instructions";
+@import "game-buttons";
+@import "game-state";
+@import "game-scores";
+
+@import "modal";
+@import "sharing";
+
+input::-moz-focus-inner,
+button::-moz-focus-inner {
+  border: none;
+  padding: 0;
+  outline: none;
+}
+
+body {
+  @extend %reset;
+  background-color: $evm-grau-80;
+  color: $white;
+  position: relative;
+  overflow: hidden;
+}
+
+.wrapper {
+  @extend %reset;
+  min-height: 100vh;
+  width: 100vw;
+  position: absolute;
+
+  background-image: url(../img/hintergrund.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+
+
+
+
+
+
+
+
+
+

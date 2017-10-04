@@ -1,0 +1,112 @@
+$button-size: 6em;
+
+/* Reset `button` and button-style `input` default styles */
+button {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+
+  background: none;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  line-height: normal;
+  overflow: visible;
+  padding: 0;
+  -webkit-appearance: button;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.game-buttons {
+  position: relative;
+  //left: -0.5em;
+  padding: 1em;
+
+  nav {
+    @extend %navigation;
+    @extend %center;
+    max-width: 300px;
+  }
+
+  button {
+    width: 100%;
+    height: 0;
+    padding-bottom: 100%;
+    position: relative;
+    vertical-align: middle;
+
+    &::before {
+      @extend %reset;
+      display: block;
+      position: absolute;
+      right: 20%;
+      top: 20%;
+      z-index: 100;
+      pointer-events: none;
+      width: 100%;
+      height: 100%;
+    }
+
+    &::after {
+      @extend %reset;
+      @extend %box-shadow;
+      display: block;
+      position: absolute;
+      content: '';
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+    }
+
+  }
+
+  li {
+    &:first-child {
+      button {
+        left: 0.5em;
+
+        &::after {
+          background-color: $evm-orange-l;
+          z-index: 30;
+        }
+
+        &::before {
+          z-index: 100;
+          content: url(../img/evm-e.svg);
+        }
+      }
+    }
+
+    button {
+      &::after {
+        background-color: $evm-orange-m;
+      }
+      z-index: 20;
+
+      &::before {
+        content: url(../img/evm-v.svg);
+      }
+    }
+
+    &:last-child {
+      left: -0.5em;
+
+      button {
+        &::after {
+          background-color: $evm-orange-r;
+          z-index: 10;
+        }
+
+        &::before {
+          content: url(../img/evm-m.svg);
+          z-index: 40;
+        }
+      }
+    }
+  }
+
+}

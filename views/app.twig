@@ -1,0 +1,26 @@
+{% extends 'base.twig' %}
+
+{% block content %}
+    <div id="app"
+         class="root"
+         v-bind:class="{ 'is-active': active }"
+    >
+
+        <div class="game-container">
+
+            <div class="game">
+                {#<game-options></game-options>#}
+                <game-display type="strom"></game-display>
+
+                {#<game-instructions text="Drücken Sie"></game-instructions>#}
+                <game-buttons></game-buttons>
+                <game-state title="Hits:"></game-state>
+                <game-scores></game-scores>
+            </div>
+
+            <sharing title=""></sharing>
+        </div>
+
+        <modal></modal>
+    </div>
+{% endblock %}

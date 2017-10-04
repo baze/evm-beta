@@ -1,0 +1,17 @@
+.modal-content {
+  color: #666;
+
+  .btn-secondary {
+  }
+  .btn-primary {
+    background-color: $evm-orange-l;
+    border-color: $evm-orange-l;
+    color: $white;
+
+    &:hover {
+      border-color: $evm-orange-m;
+      background-color: $white;
+      color: $evm-orange-m;
+    }
+  }
+}

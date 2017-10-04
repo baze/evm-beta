@@ -1,0 +1,23 @@
+{
+  "floor": 99,
+  "ceil": 100,
+  "interval": 250,
+  "incrementValue": 5,
+  "options": [
+    {
+      "name": "Strom",
+      "value": "strom"
+    },
+    {
+      "name": "Wasser",
+      "value": "wasser"
+    },
+    {
+      "name": "Wind",
+      "value": "wind"
+    }
+  ],
+  "keys": [
+    "e"
+  ]
+}

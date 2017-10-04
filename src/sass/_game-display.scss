@@ -1,0 +1,97 @@
+@import "animations";
+
+.game-display {
+  position: relative;
+  height: 40vh;
+
+  .visual {
+    @extend %center;
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center top;
+
+    &[data-type="strom"] {
+      background-image: url(../img/grafik-strom.png);
+
+      &:before,
+      &:after {
+        position: absolute;
+        top: 33%;
+        content: "";
+        display: block;
+        width: 1px;
+        height: 1px;
+        left: 50%;
+        border-radius: 50%;
+      }
+
+      &:before {
+        background: $lightbulbColor2;
+      }
+
+      &:after {
+        background: $lightbulbColor1;
+      }
+    }
+
+    &[data-type="gas"],
+    &[data-type="wasser"] {
+      background-image: url(http://placehold.it/256x512);
+    }
+
+    &[data-type="wind"] {
+      background-image: url(../img/grafik-wind.png);
+
+      &:before {
+        position: absolute;
+        top: 33%;
+        left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+        z-index: 40;
+        content: "";
+        display: block;
+        border-radius: 20%;
+        width: 400px;
+        height: 400px;
+        background-color: transparentize(red, 0.4);
+        background-image: url(../img/grafik-wind.png);
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: contain;
+        animation: rotate infinite linear;
+      }
+
+
+    }
+
+    @for $i from 1 through 100 {
+      &[data-value="#{$i}"] {
+
+        &[data-type="strom"] {
+          &:before {
+            box-shadow: 0 0 #{$i/16}em #{$i/10}em $lightbulbColor2;
+            opacity: #{$i/110};
+          }
+
+          &:after {
+            box-shadow: 0 0 #{$i/18}em #{$i/16}em $lightbulbColor1;
+            opacity: #{$i/140};
+          }
+        }
+
+        &[data-type="wind"] {
+          &:before {
+            animation-duration: #{100/$i}s;
+          }
+        }
+
+      }
+    }
+
+  }
+
+}
