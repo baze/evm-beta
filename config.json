@@ -1,8 +1,8 @@
 {
-  "floor": 99,
+  "floor": 0,
   "ceil": 100,
   "interval": 250,
-  "incrementValue": 5,
+  "incrementValue": 10,
   "options": [
     {
       "name": "Strom",
@@ -18,6 +18,6 @@
     }
   ],
   "keys": [
-    "e"
+    "e", "v", "m"
   ]
 }

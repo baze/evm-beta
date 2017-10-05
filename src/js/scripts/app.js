@@ -16,6 +16,16 @@ import LocalStorage from 'lowdb/adapters/LocalStorage'
 
 const adapter = new LocalStorage('db')
 const db = low(adapter)
+let highscore = db.get('players')
+
+Array.prototype.clear = function () {
+    while (this.length) {
+        this.pop();
+    }
+};
+
+db.defaults({players: []})
+    .write()
 
 module.exports = function () {
 
@@ -185,16 +195,19 @@ module.exports = function () {
     Vue.component('game-scores', {
         data() {
             return {
-                state: store.state
+                state: store.state,
+                highscore: highscore
+                    .value()
             };
         },
 
         template: `
             <div class="game-scores">
-            <button type="button"
-                            class="btn btn-primary-outline  btn-block"
-                            v-on:click="reset()">reset</button>
-                            
+            
+                <button type="button"
+                    class="btn btn-primary-outline  btn-block"
+                    v-if="highscore.length"
+                    v-on:click="clear()">reset</button>
                             
                 <p v-if="state.gameOver">
                     <button type="button"
@@ -220,47 +233,57 @@ module.exports = function () {
             </div>
         `,
 
+        computed: {
+            orderedHighscore: () => {
+                return highscore
+                    .sortBy('strokes')
+                    .take(3)
+                    .value();
+            }
+        },
+
         methods: {
-            reset: function () {
-                db.set('players', [])
-                    .write()
+            init: function() {
+                console.log("init");
             },
 
             restart: function () {
                 Event.fire('shouldRestart');
-            }
-        },
+            },
 
-        computed: {
-            highscore: {
-                // getter
-                get: function () {
-                    return db.get('players')
-                        .sortBy('views')
-                        .take(3)
-                        .value();
-                },
-                // setter
-                set: function (newValue) {
+            add: function(player) {
+                highscore
+                    .value()
+                    .push(player)
 
+                db.write()
 
-                    console.log("set")
-                    console.log(newValue)
+                console.log('added')
+            },
 
-                    // this.highscore = newValue;
-                }
+            clear: function () {
+                console.log("reset");
+
+                highscore
+                    .tap(function (array) {
+                        // array.shift()
+                        array.clear()
+                    })
+                    .value()
+
+                db.write()
+
             }
         },
 
         created() {
+            let self = this
 
+            this.init()
 
-            Event.listen('playerAdded', (player) => {
-                db.get('players')
-                    .push(player)
-                    .write();
-                
-                this.highscore = [player];
+            Event.listen('modalSubmitted', (player) => {
+
+                self.add(player)
             });
         }
     });
@@ -379,8 +402,12 @@ module.exports = function () {
         methods: {
             submit: function (event) {
                 event.preventDefault();
+
+                console.log("submit")
+
                 this.player.strokes = this.state.strokes;
-                Event.fire('playerAdded', this.player);
+
+                Event.fire('modalSubmitted', this.player);
             }
         },
 
@@ -392,12 +419,12 @@ module.exports = function () {
 
         created() {
             Event.listen('playerAdded', (player) => {
-                // $('#myModal').modal('hide');
+                $('#myModal').modal('hide');
             });
         },
 
         mounted() {
-            $('#myModal').modal();
+            // $('#myModal').modal();
         }
     });
 
@@ -422,9 +449,6 @@ module.exports = function () {
 
         created() {
             let self = this;
-
-            db.defaults({players: []})
-                .write()
 
             this.fetchData();
 
