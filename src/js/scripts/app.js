@@ -4,7 +4,6 @@ let Vue = require('vue');
 let axios = require('axios');
 let _ = require('lodash');
 window.Event = require('./event.js');
-
 let Mousetrap = require('mousetrap');
 
 let $ = require('jquery');
