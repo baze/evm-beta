@@ -11,8 +11,6 @@ window.jQuery = $;
 window.Tether = require('tether');
 require('bootstrap');
 
-// foo
-
 import low from 'lowdb'
 import LocalStorage from 'lowdb/adapters/LocalStorage'
 
