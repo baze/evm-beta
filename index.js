@@ -14,6 +14,14 @@ const adapter = new FileAsync('db.json')
 low(adapter)
     .then(db => {
         // Routes
+        // GET /posts
+        app.get('/posts', (req, res) => {
+            const post = db.get('posts')
+                .value()
+
+            res.send(post)
+        })
+
         // GET /posts/:id
         app.get('/posts/:id', (req, res) => {
             const post = db.get('posts')

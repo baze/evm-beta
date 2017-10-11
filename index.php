@@ -1,5 +1,7 @@
 <?php
 
+die("d");
+
 require_once 'bootstrap.php';
 
 $context['title'] = 'evm App';
