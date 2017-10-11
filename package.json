@@ -12,7 +12,7 @@
     "dev": "webpack",
     "production": "NODE_ENV=production webpack",
     "watch": "npm run dev -- --watch",
-    "server": "node src/js/server.js"
+    "start": "node index.js"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
