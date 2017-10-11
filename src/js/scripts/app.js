@@ -1,6 +1,12 @@
 'use strict';
 
-let Vue = require('vue');
+import Vue from 'vue'
+import Vuelidate from 'vuelidate'
+import {validationMixin} from 'vuelidate'
+import {required, minLength, email} from 'vuelidate/lib/validators'
+
+Vue.use(Vuelidate)
+
 let axios = require('axios');
 let _ = require('lodash');
 window.Event = require('./event.js');
@@ -13,6 +19,8 @@ require('bootstrap');
 
 import low from 'lowdb'
 import LocalStorage from 'lowdb/adapters/LocalStorage'
+
+
 
 const adapter = new LocalStorage('db')
 const db = low(adapter)
@@ -29,7 +37,30 @@ db.defaults({players: []})
 
 module.exports = function () {
 
+    let Player = Vue.extend({
+        mixins: [validationMixin],
+        data() {
+            return {
+                name: '',
+                email: '',
+                strokes: 0
+            }
+        },
+        validations: {
+            name: {
+                required,
+                minLength: minLength(4)
+            },
+            email: {
+                required,
+                email,
+                minLength: minLength(4)
+            }
+        }
+    })
+
     Vue.prototype.$http = axios;
+    Vue.use(Vuelidate)
 
     let filename = 'config.json';
 
@@ -203,12 +234,6 @@ module.exports = function () {
 
         template: `
             <div class="game-scores">
-            
-                <button type="button"
-                    class="btn btn-primary-outline  btn-block"
-                    v-if="highscore.length"
-                    v-on:click="clear()">reset</button>
-                            
                 <p v-if="state.gameOver">
                     <button type="button"
                             class="btn btn-primary-outline btn-lg btn-block"
@@ -229,6 +254,12 @@ module.exports = function () {
                         <td>{{ player.strokes }}</td>
                     </tr>
                 </table>
+                
+                <p v-if="highscore.length">
+                    <button type="button"
+                        class="btn btn-danger btn-block"
+                        v-on:click="clear()">reset</button>
+                </p>
 
             </div>
         `,
@@ -243,15 +274,16 @@ module.exports = function () {
         },
 
         methods: {
-            init: function() {
-                console.log("init");
+            init: function () {
+                // console.log("init");
             },
 
             restart: function () {
                 Event.fire('shouldRestart');
             },
 
-            add: function(player) {
+            add: function (player) {
+
                 highscore
                     .value()
                     .push(player)
@@ -282,8 +314,7 @@ module.exports = function () {
             this.init()
 
             Event.listen('modalSubmitted', (player) => {
-
-                self.add(player)
+                self.add(player._data)
             });
         }
     });
@@ -351,10 +382,7 @@ module.exports = function () {
         data() {
             return {
                 state: store.state,
-                player: {
-                    name: "foo",
-                    email: "foo@bar.de"
-                }
+                player: new Player
             };
         },
 
@@ -413,12 +441,13 @@ module.exports = function () {
 
         computed: {
             validated: function () {
-                return this.player.name != "" && this.player.email != "";
+                return !this.player.$v.$invalid;
             }
         },
 
         created() {
-            Event.listen('playerAdded', (player) => {
+            Event.listen('modalSubmitted', (player) => {
+                this.player = new Player;
                 $('#myModal').modal('hide');
             });
         },

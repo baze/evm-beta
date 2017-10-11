@@ -1,8 +1,12 @@
 let webpack = require('webpack');
 let path = require('path');
+
 let ExtractTextPlugin = require('extract-text-webpack-plugin');
 let CleanWebpackPlugin = require('clean-webpack-plugin');
 let ManifestPlugin = require('webpack-manifest-plugin');
+let HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlCriticalPlugin = require("html-critical-webpack-plugin");
+
 let inProduction = (process.env.NODE_ENV === 'production');
 
 module.exports = {
@@ -60,6 +64,26 @@ module.exports = {
         new webpack.LoaderOptionsPlugin({
             minimize: inProduction
         }),
+
+        /*new HtmlWebpackPlugin({
+            filename: 'index.html',
+            template: 'views/index.twig',
+            inject: true
+        }),
+
+        new HtmlCriticalPlugin({
+            base: path.resolve(__dirname),
+            src: 'dist/index.html',
+            dest: 'views/base2.twig',
+            inline: true,
+            minify: true,
+            extract: true,
+            width: 375,
+            height: 565,
+            penthouse: {
+                blockJSRequests: false,
+            }
+        }),*/
 
         new ManifestPlugin({
             fileName: 'manifest.json',
