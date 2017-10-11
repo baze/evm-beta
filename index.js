@@ -45,5 +45,6 @@ low(adapter)
         return db.defaults({posts: []}).write()
     })
     .then(() => {
-        app.listen((process.env.PORT || 8080), () => console.log('listening on port 3000'))
+        let port = process.env.PORT || 8080;
+        app.listen(port, () => console.log('listening on port ' + port))
     })
