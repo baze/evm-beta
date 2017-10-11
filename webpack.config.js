@@ -4,8 +4,8 @@ let path = require('path');
 let ExtractTextPlugin = require('extract-text-webpack-plugin');
 let CleanWebpackPlugin = require('clean-webpack-plugin');
 let ManifestPlugin = require('webpack-manifest-plugin');
-let HtmlWebpackPlugin = require('html-webpack-plugin');
-const HtmlCriticalPlugin = require("html-critical-webpack-plugin");
+// let HtmlWebpackPlugin = require('html-webpack-plugin');
+// const HtmlCriticalPlugin = require("html-critical-webpack-plugin");
 
 let inProduction = (process.env.NODE_ENV === 'production');
 
