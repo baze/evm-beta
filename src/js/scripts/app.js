@@ -17,14 +17,17 @@ window.jQuery = $;
 window.Tether = require('tether');
 require('bootstrap');
 
-import low from 'lowdb'
-import LocalStorage from 'lowdb/adapters/LocalStorage'
-
-
-
+const low = require('lowdb')
+const LocalStorage = require('lowdb/adapters/LocalStorage')
 const adapter = new LocalStorage('db')
 const db = low(adapter)
+
 let highscore = db.get('players')
+
+let serverURL = 'http://kunden.euw.de/evm-app/server/public'
+
+let MobileDetect = require('mobile-detect'),
+    md = new MobileDetect(window.navigator.userAgent)
 
 Array.prototype.clear = function () {
     while (this.length) {
@@ -129,7 +132,7 @@ module.exports = function () {
         `,
 
         created() {
-            Event.listen('loadedData', (data) => {
+            Event.listen('loadedConfig', (data) => {
                 this.options = data.options;
             });
         }
@@ -160,7 +163,7 @@ module.exports = function () {
         `,
 
         created() {
-            Event.listen('loadedData', (data) => {
+            Event.listen('loadedConfig', (data) => {
                 this.keys = data.keys;
             });
         }
@@ -199,7 +202,7 @@ module.exports = function () {
         },
 
         created() {
-            Event.listen('loadedData', (data) => {
+            Event.listen('loadedConfig', (data) => {
                 this.keys = data.keys;
             });
         }
@@ -227,8 +230,9 @@ module.exports = function () {
         data() {
             return {
                 state: store.state,
-                highscore: highscore
-                    .value()
+                // highscore: highscore
+                //     .value()
+                highscore: []
             };
         },
 
@@ -248,7 +252,8 @@ module.exports = function () {
                         <th>Name</th>
                         <th>Score</th>
                     </tr>
-                    <tr v-for="(player, index) in highscore">
+                    
+                    <tr v-for="(player, index) in orderedHighscore">
                         <td>{{ index + 1 }}</td>
                         <td>{{ player.name }}</td>
                         <td>{{ player.strokes }}</td>
@@ -265,17 +270,20 @@ module.exports = function () {
         `,
 
         computed: {
-            orderedHighscore: () => {
-                return highscore
-                    .sortBy('strokes')
-                    .take(3)
-                    .value();
+            orderedHighscore: function () {
+
+                return this.highscore.sort((a, b) => parseInt(a.strokes) > parseInt(b.strokes));
+
+                // return highscore
+                //     .sortBy('strokes')
+                //     .take(3)
+                //     .value();
             }
         },
 
         methods: {
             init: function () {
-                // console.log("init");
+                console.log("init");
             },
 
             restart: function () {
@@ -284,26 +292,49 @@ module.exports = function () {
 
             add: function (player) {
 
-                highscore
-                    .value()
-                    .push(player)
+                // highscore
+                //     .value()
+                //     .push(player)
+                //
+                // db.write()
 
-                db.write()
+                let self = this
 
-                console.log('added')
+                console.log('adding ...')
+
+                this.$http.post(serverURL + '/users', player)
+                    .then(function (response) {
+                        self.highscore.push(response.data)
+                        console.log('added')
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+
             },
 
             clear: function () {
-                console.log("reset");
+                let self = this
 
-                highscore
+                console.log('resetting ...')
+
+                this.$http.delete(serverURL + '/users')
+                    .then(function (response) {
+                        self.highscore.clear()
+                        console.log('resetted')
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+
+                /*highscore
                     .tap(function (array) {
                         // array.shift()
                         array.clear()
                     })
-                    .value()
+                    .value()*/
 
-                db.write()
+                // db.write()
 
             }
         },
@@ -315,6 +346,10 @@ module.exports = function () {
 
             Event.listen('modalSubmitted', (player) => {
                 self.add(player._data)
+            });
+
+            Event.listen('loadedData', (data) => {
+                this.highscore = data
             });
         }
     });
@@ -336,12 +371,6 @@ module.exports = function () {
                         name: "twitter",
                         icon: "fa-twitter",
                         href: "https://twitter.com/home?status=" + window.location
-                    },
-                    {
-                        name: "whatsapp",
-                        icon: "fa-whatsapp",
-                        href: "whatsapp://send?text=" + window.location,
-                        action: "share/whatsapp/share"
                     }
                 ]
             };
@@ -356,14 +385,23 @@ module.exports = function () {
                         <li v-for="option in options">
                             <a v-bind:href="option.href" v-on:click.stop.prevent="share(option.href, 'foo')" v-bind:data-action="option.action">
                                 <i class="fa" v-bind:class="option.icon"></i>
-                            </a>        
+                            </a>
                         </li>
                     </ul>
                 </nav>
-                
-                
             </div>
         `,
+
+        created() {
+            if (md.mobile()) {
+                this.options.push({
+                    name: "whatsapp",
+                    icon: "fa-whatsapp",
+                    href: "whatsapp://send?text=" + window.location,
+                    action: "share/whatsapp/share"
+                })
+            }
+        },
 
         methods: {
             share(url, title) {
@@ -481,7 +519,7 @@ module.exports = function () {
 
             this.fetchData();
 
-            Event.listen('loadedData', (data) => {
+            Event.listen('loadedConfig', (data) => {
                 self.keys = data.keys;
 
                 if (data.floor) {
@@ -562,12 +600,20 @@ module.exports = function () {
         methods: {
             fetchData: function (el) {
                 if (window.config) {
-                    Event.fire('loadedData', window.config);
+                    Event.fire('loadedConfig', window.config);
                 } else {
                     this.$http.get(filename)
                         .then(function (response) {
-                            Event.fire('loadedData', response.data);
+                            Event.fire('loadedConfig', response.data);
                             // console.log(response.data);
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+
+                    this.$http.get(serverURL + '/users')
+                        .then(function (response) {
+                            Event.fire('loadedData', response.data);
                         })
                         .catch(function (error) {
                             console.log(error);
