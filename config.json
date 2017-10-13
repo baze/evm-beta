@@ -1,8 +1,8 @@
 {
   "floor": 0,
   "ceil": 100,
-  "interval": 100,
-  "incrementValue": 5,
+  "interval": 250,
+  "incrementValue": 10,
   "options": [
     {
       "name": "Strom",
