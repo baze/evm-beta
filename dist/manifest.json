@@ -4,8 +4,11 @@
   "dist/img/evm-m.svg": "dist/img/evm-m.84334393ce2432f181d3e9d38a0cdce3.svg",
   "dist/img/evm-v.svg": "dist/img/evm-v.d23f4cb4bc5c71e88aa26d6c19644ea6.svg",
   "dist/img/grafik-strom.png": "dist/img/grafik-strom.7421020cfcd6ec44d04c714c9ca98762.png",
+  "dist/img/grafik-wind-overlay.png": "dist/img/grafik-wind-overlay.0f58d692c469e19cc0df80b5941f6d72.png",
   "dist/img/grafik-wind.png": "dist/img/grafik-wind.b0c4ecf1a6afbb926081c9fb9e89a452.png",
   "dist/img/hintergrund.jpg": "dist/img/hintergrund.608d7563d47adb4eec29186a383e5cab.jpg",
-  "dist/main.css": "dist/main.10408a85acf9278e50cc.css",
-  "dist/main.js": "dist/main.10408a85acf9278e50cc.js"
+  "dist/img/xmas-lights.png": "dist/img/xmas-lights.9fc3536e97f027676758c4afe83473a8.png",
+  "dist/img/xmas-tree.png": "dist/img/xmas-tree.5c81526126571262aad6e8edb201f4b5.png",
+  "dist/main.css": "dist/main.7ebf66f2549de8c23ac5.css",
+  "dist/main.js": "dist/main.7ebf66f2549de8c23ac5.js"
 }

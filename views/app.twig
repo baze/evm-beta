@@ -10,7 +10,7 @@
 
             <div class="game">
                 {#<game-options></game-options>#}
-                <game-display type="strom"></game-display>
+                <game-display type="{{ displayType | default('strom') }}"></game-display>
 
                 {#<game-instructions text="Drücken Sie"></game-instructions>#}
                 <game-buttons></game-buttons>

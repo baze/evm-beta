@@ -14,6 +14,8 @@
     background-repeat: no-repeat;
     background-position: center top;
 
+    background-image: url(http://placehold.it/256x512);
+
     &[data-type="strom"] {
       background-image: url(../img/grafik-strom.png);
 
@@ -38,11 +40,6 @@
       }
     }
 
-    &[data-type="gas"],
-    &[data-type="wasser"] {
-      background-image: url(http://placehold.it/256x512);
-    }
-
     &[data-type="wind"] {
       background-image: url(../img/grafik-wind.png);
 
@@ -57,8 +54,9 @@
         border-radius: 20%;
         width: 400px;
         height: 400px;
-        background-color: transparentize(red, 0.4);
-        background-image: url(../img/grafik-wind.png);
+        //background-color: transparentize(red, 0.4);
+        background-image: url(../img/grafik-wind-overlay.png);
+        filter: drop-shadow(0 0.1em 0.5em transparentize($black, 0.8));
         background-repeat: no-repeat;
         background-position: center center;
         background-size: contain;
@@ -66,6 +64,30 @@
       }
 
 
+    }
+
+    &[data-type="xmas"] {
+      background-image: url(../img/xmas-tree.png);
+      z-index: 2;
+
+      &:after {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        content: "";
+        display: block;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center top;
+        background-image: url(../img/xmas-lights.png);
+        z-index: 1;
+        opacity: 0;
+        clip: rect(500px 500px 500px 0);
+      }
     }
 
     @for $i from 1 through 100 {
@@ -86,6 +108,17 @@
         &[data-type="wind"] {
           &:before {
             animation-duration: #{100/$i}s;
+          }
+        }
+
+        &[data-type="xmas"] {
+          &:after {
+            opacity: #{$i/100};
+            $top: #{500-$i*5}px;
+            $right: 500px;
+            $bottom: 500px;
+            $left: 0;
+            clip: rect($top $right $bottom $left);
           }
         }
 

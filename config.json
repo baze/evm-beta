@@ -1,8 +1,8 @@
 {
   "floor": 0,
   "ceil": 100,
-  "interval": 250,
-  "incrementValue": 10,
+  "interval": 100,
+  "incrementValue": 5,
   "options": [
     {
       "name": "Strom",
@@ -15,6 +15,10 @@
     {
       "name": "Wind",
       "value": "wind"
+    },
+    {
+      "name": "Weihnachten",
+      "value": "xmas"
     }
   ],
   "keys": [
