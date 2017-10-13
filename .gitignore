@@ -10,3 +10,4 @@ dest
 dist
 
 views/_generated/
+.idea/workspace.xml
